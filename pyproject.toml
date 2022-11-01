@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sipher"
-version = "1.0.0"
+version = "1.0.1"
 description = "To encrypt and decrypt message."
 readme = "README.md"
 requires-python = ">=3.6"
@@ -33,4 +33,4 @@ keywords = [
 "Bug Tracker" = "https://github.com/codesrg/sipher/issues"
 
 [project.scripts]
-zenpass = "sipher.__main__:main"
+sipher = "sipher.__main__:main"

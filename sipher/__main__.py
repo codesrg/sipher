@@ -4,7 +4,7 @@ import os
 from sipher.morse import Morse
 
 __prog__ = 'sipher'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 
 def get_argument():
