@@ -44,8 +44,7 @@ To decrypt a cipher and store it as text file.
 
 ```
 $ sipher "-.. .- - .- " --decrypt --store
-Encrypted message copied to clipboard.
-Encrypted message stored in 'path_given'.
+Encrypted message stored in 'path_given/default_path'.
 ```
 
 ## Issues:
