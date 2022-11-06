@@ -6,14 +6,11 @@ from srutil import util
 from pathlib import Path
 
 from ._sipher import Sipher
-from . import rsa, base64, morse
-
-__prog__ = 'sipher'
-__version__ = '1.0.2'
+from . import rsa, base64, morse, __version__, __package__
 
 
 def get_argument():
-    parser = argparse.ArgumentParser(prog=__prog__, usage="sipher [options]")
+    parser = argparse.ArgumentParser(prog=__package__, usage=util.stringbuilder(__package__, " [options]"))
     parser.add_argument('-v', '--version', action='version', help='show version number and exit.', version=__version__)
     group = parser.add_argument_group("to encrypt/decrypt message")
     group.add_argument("data", type=str, help="data to encrypt/decrypt")

@@ -31,7 +31,23 @@ to encrypt/decrypt message:
   -p, --path     path to store encrypted/decrypted message
 ```
 
-###
+### Python Script
+To encrypt/decrypt message using rsa.
+```
+from sipher import rsa
+
+rsa.gen_keys()
+privatekey, publickey = rsa.load_keys()
+
+message = 'sipher'
+signature = rsa.sign(message, privatekey)
+citext = rsa.encrypt(message, publickey)
+
+decrypted_message = rsa.decrypt(citext, privatekey)
+verify(decrypted_message, signature, publickey)
+```
+
+### Command Line
 To encrypt a text and copy it to clipboard.
 ```
 $ sipher data --encrypt --copy --alg base64
