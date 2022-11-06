@@ -6,7 +6,7 @@
 
 To encrypt and decrypt message. 
 
-Only morse encryption/decryption is supported.
+Morse, RSA and Base64 encryption/decryption is supported.
 
 ## Installation
 
@@ -23,19 +23,18 @@ optional arguments:
 
 to encrypt/decrypt message:
   data           data to encrypt/decrypt
+  -a, --alg      algorithm to use
   -e, --encrypt  to encrypt message
   -d, --decrypt  to decrypt message
-  -c, --copy     to copy encrypted/decrypted message to clipboard (default :
-                 False)
-  -s, --store    to store encrypted/decrypted message as text file (default :
-                 False)
+  -c, --copy     to copy encrypted/decrypted message to clipboard (default : False)
+  -s, --store    to store encrypted/decrypted message as text file (default : False)
   -p, --path     path to store encrypted/decrypted message
 ```
 
 ###
 To encrypt a text and copy it to clipboard.
 ```
-$ sipher data --encrypt --copy
+$ sipher data --encrypt --copy --alg base64
 Encrypted message copied to clipboard.
 ```
 ###
@@ -43,8 +42,8 @@ Encrypted message copied to clipboard.
 To decrypt a cipher and store it as text file.
 
 ```
-$ sipher "-.. .- - .- " --decrypt --store
-Encrypted message stored in 'path_given/default_path'.
+$ sipher "-.. .- - .- " --decrypt --store --alg morse
+Decrypted message stored in 'path'.
 ```
 
 ## Issues:
