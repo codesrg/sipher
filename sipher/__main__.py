@@ -1,10 +1,15 @@
-import argparse
-import os
+from __future__ import annotations
 
-from sipher.morse import Morse
+import os
+import argparse
+from srutil import util
+from pathlib import Path
+
+from ._sipher import Sipher
+from . import rsa, base64, morse
 
 __prog__ = 'sipher'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 
 def get_argument():
@@ -12,6 +17,10 @@ def get_argument():
     parser.add_argument('-v', '--version', action='version', help='show version number and exit.', version=__version__)
     group = parser.add_argument_group("to encrypt/decrypt message")
     group.add_argument("data", type=str, help="data to encrypt/decrypt")
+    group.add_argument("-k", "--key", dest='key', metavar='', default=rsa.load_keys(),
+                       help=argparse.SUPPRESS)
+    group.add_argument("-a", "--alg", dest='alg', metavar='', choices=['morse', 'base64', 'rsa'], type=str,
+                       required=True, help="algorithm to use")
     group.add_argument("-e", "--encrypt", dest="encrypt", default=False, action="store_true",
                        help="to encrypt message")
     group.add_argument("-d", "--decrypt", dest="decrypt", default=False, action="store_true",
@@ -33,21 +42,25 @@ def get_argument():
     return options
 
 
-def encrypt(m: Morse, data: str, copy_to_clipboard: bool = False, store: bool = False, store_path: str = None):
-    m.encrypt(data=data, copy_to_clipboard=copy_to_clipboard, store=store, store_path=store_path)
+def encrypt(s: Sipher, data: str | os.PathLike, key, copy_to_clipboard: bool = False, store: bool = False,
+            store_path: str = None):
+    s.encrypt(data, key.__getitem__(1), copy_to_clipboard=copy_to_clipboard, store=store, store_path=store_path)
 
 
-def decrypt(m: Morse, data: str, copy_to_clipboard: bool = False, store: bool = False, store_path: str = None):
-    m.decrypt(data=data, copy_to_clipboard=copy_to_clipboard, store=store, store_path=store_path)
+def decrypt(s: Sipher, data: str | os.PathLike, key, copy_to_clipboard: bool = False, store: bool = False,
+            store_path: str = None):
+    s.decrypt(data, key.__getitem__(0), copy_to_clipboard=copy_to_clipboard, store=store, store_path=store_path)
 
 
 def main():
     options = get_argument()
-    m = Morse()
+    sipher_alg = {'morse': morse, 'rsa': rsa, 'base64': base64}
+    s = sipher_alg.get(options.alg)
+    data = util.getinstanceof(options.data, Path) if os.path.exists(options.data) else options.data
     if options.encrypt:
-        encrypt(m, options.data, options.copy_to_clipboard, options.store, options.store_path)
+        encrypt(s, data, options.key, options.copy_to_clipboard, options.store, options.store_path)
     elif options.decrypt:
-        decrypt(m, options.data, options.copy_to_clipboard, options.store, options.store_path)
+        decrypt(s, data, options.key, options.copy_to_clipboard, options.store, options.store_path)
 
 
 if __name__ == "__main__":
