@@ -26,6 +26,8 @@ keywords = [
     "sipher",
     "cipher",
     "morse",
+    "base64",
+    "rsa",
     "encrypt",
     "decrypt"
 ]
