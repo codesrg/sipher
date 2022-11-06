@@ -57,14 +57,7 @@ class RSA(Sipher):
         if isinstance(data, PathLike):
             data = self._get_data_from_file(data)
         self.__em = rsa.encrypt(data.encode('ascii'), pub_key=pub_key)
-        if copy_to_clipboard is True:
-            is_copied = su.copy_to_clipboard(self.__em)
-            if is_copied:
-                print("Encrypted message copied to clipboard.")
-        if store is True:
-            path = su.store(data=self.__em, path=store_path, alg=self.__class__.__name__.lower(), mode='wb')
-            if path.exists():
-                print("Encrypted message stored in '" + path.__str__() + "'")
+        self._copy_store_m(self.__em, self, copy_to_clipboard, store, store_path, 'wb', encryption=True)
         return self.__em
 
     def decrypt(self, data: bytes | PathLike[bytes], priv_key: PrivateKey = None, copy_to_clipboard: bool = False,
@@ -72,12 +65,5 @@ class RSA(Sipher):
         if isinstance(data, PathLike):
             data = self._get_data_from_file(data, mode='rb')
         self.__dm = rsa.decrypt(data, priv_key=priv_key)
-        if copy_to_clipboard is True:
-            is_copied = su.copy_to_clipboard(self.__dm)
-            if is_copied:
-                print("Decrypted message copied to clipboard.")
-        if store is True:
-            path = su.store(data=self.__dm, path=store_path, alg=self.__class__.__name__.lower())
-            if path.exists():
-                print("Decrypted message stored in '" + path.__str__() + "'")
+        self._copy_store_m(self.__dm.decode('ascii'), self, copy_to_clipboard, store, store_path, 'wb', decryption=True)
         return self.__dm.decode('ascii')
