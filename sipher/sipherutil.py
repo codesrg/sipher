@@ -12,7 +12,7 @@ def home() -> str:
 
 
 def store(data: AnyStr, file_name: Optional[str] = None, path: Optional[str] = None, file_format: Optional[str] = None,
-          alg: Optional[str] = None, mode: str = 'w'):
+          alg: Optional[str] = None, mode: str = 'w') -> Path:
     if not path:
         path = os.getcwd()
     if not file_name:
@@ -28,7 +28,7 @@ def store(data: AnyStr, file_name: Optional[str] = None, path: Optional[str] = N
     return file
 
 
-def retrieve(file_name: str, path: str, file_format: str = None, mode: str = 'r'):
+def retrieve(file_name: str, path: str, file_format: str = None, mode: str = 'r') -> AnyStr:
     if not path:
         path = os.getcwd()
     if not file_format:
