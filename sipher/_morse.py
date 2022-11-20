@@ -4,7 +4,6 @@ from os import PathLike
 from typing import AnyStr, Optional
 
 from ._sipher import Sipher
-from . import sipherutil as su
 
 
 class Morse(Sipher):
@@ -27,7 +26,7 @@ class Morse(Sipher):
         self.__em = ''
         self.__dm = ''
 
-    def encrypt(self, data: AnyStr | PathLike[AnyStr], key=None, copy_to_clipboard: bool = False, store: bool = False,
+    def encrypt(self, data: AnyStr | PathLike[AnyStr], copy_to_clipboard: bool = False, store: bool = False,
                 store_path: Optional[str] = None):
         if isinstance(data, PathLike):
             data = self._get_data_from_file(data)
@@ -36,7 +35,7 @@ class Morse(Sipher):
         self._copy_store_m(self.__em, self, copy_to_clipboard, store, store_path, encryption=True)
         return self.__em
 
-    def decrypt(self, data: AnyStr | PathLike[AnyStr], key=None, copy_to_clipboard: bool = False, store: bool = False,
+    def decrypt(self, data: AnyStr | PathLike[AnyStr], copy_to_clipboard: bool = False, store: bool = False,
                 store_path: Optional[str] = None):
         if isinstance(data, PathLike):
             data = self._get_data_from_file(data)

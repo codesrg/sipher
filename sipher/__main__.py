@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import sys
 import argparse
 from srutil import util
 from pathlib import Path
@@ -41,12 +42,13 @@ def get_argument():
 
 def encrypt(s: Sipher, data: str | os.PathLike, key, copy_to_clipboard: bool = False, store: bool = False,
             store_path: str = None):
-    s.encrypt(data, key.__getitem__(1), copy_to_clipboard=copy_to_clipboard, store=store, store_path=store_path)
+    s.encrypt(data, pub_key=key.__getitem__(1), copy_to_clipboard=copy_to_clipboard, store=store, store_path=store_path)
 
 
 def decrypt(s: Sipher, data: str | os.PathLike, key, copy_to_clipboard: bool = False, store: bool = False,
             store_path: str = None):
-    s.decrypt(data, key.__getitem__(0), copy_to_clipboard=copy_to_clipboard, store=store, store_path=store_path)
+    s.decrypt(data, priv_key=key.__getitem__(0), copy_to_clipboard=copy_to_clipboard, store=store,
+              store_path=store_path)
 
 
 def main():
@@ -61,4 +63,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import abc
 from srutil import util
-from typing import AnyStr, Optional
+from typing import AnyStr
 
 from . import sipherutil as su
 
@@ -32,11 +32,9 @@ class Sipher:
                 print("{} message stored in '{}'".format(msg, path.__str__()).strip())
 
     @abc.abstractmethod
-    def encrypt(self, data: AnyStr | os.PathLike[AnyStr], key=None, copy_to_clipboard: bool = False,
-                store: bool = False, store_path: Optional[str] = None) -> AnyStr:
+    def encrypt(self, data: AnyStr | os.PathLike[AnyStr], **kwargs) -> AnyStr:
         pass
 
     @abc.abstractmethod
-    def decrypt(self, data: AnyStr | os.PathLike[AnyStr], key=None, copy_to_clipboard: bool = False,
-                store: bool = False, store_path: Optional[str] = None) -> AnyStr:
+    def decrypt(self, data: AnyStr | os.PathLike[AnyStr], **kwargs) -> AnyStr:
         pass

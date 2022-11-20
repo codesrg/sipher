@@ -5,7 +5,6 @@ import base64
 from typing import AnyStr, Optional
 
 from sipher._sipher import Sipher
-from . import sipherutil as su
 
 
 class Base64(Sipher):
@@ -13,7 +12,7 @@ class Base64(Sipher):
         self.__em = ''
         self.__dm = ''
 
-    def encrypt(self, data: AnyStr | os.PathLike[AnyStr], key=None, copy_to_clipboard: bool = False,
+    def encrypt(self, data: AnyStr | os.PathLike[AnyStr], copy_to_clipboard: bool = False,
                 store: bool = False, store_path: Optional[str] = None):
         if isinstance(data, os.PathLike):
             data = self._get_data_from_file(data)
@@ -22,7 +21,7 @@ class Base64(Sipher):
         self._copy_store_m(self.__em, self, copy_to_clipboard, store, store_path, encryption=True)
         return self.__em
 
-    def decrypt(self, data: AnyStr | os.PathLike[AnyStr], key=None, copy_to_clipboard: bool = False,
+    def decrypt(self, data: AnyStr | os.PathLike[AnyStr], copy_to_clipboard: bool = False,
                 store: bool = False, store_path: Optional[str] = None):
         if isinstance(data, os.PathLike):
             data = self._get_data_from_file(data)
