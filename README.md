@@ -33,7 +33,7 @@ to encrypt/decrypt message:
 
 ### Python Script
 To encrypt/decrypt message using rsa.
-```
+```python
 from sipher import rsa
 
 rsa.gen_keys()
@@ -44,7 +44,7 @@ signature = rsa.sign(message, privatekey)
 citext = rsa.encrypt(message, publickey)
 
 decrypted_message = rsa.decrypt(citext, privatekey)
-verify(decrypted_message, signature, publickey)
+rsa.verify(decrypted_message, signature, publickey)
 ```
 
 ### Command Line

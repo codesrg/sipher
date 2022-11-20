@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import sys
 import argparse
 from srutil import util
 from pathlib import Path
@@ -39,26 +40,38 @@ def get_argument():
     return options
 
 
-def encrypt(s: Sipher, data: str | os.PathLike, key, copy_to_clipboard: bool = False, store: bool = False,
-            store_path: str = None):
-    s.encrypt(data, key.__getitem__(1), copy_to_clipboard=copy_to_clipboard, store=store, store_path=store_path)
+def _remove_unwanted_params(s: Sipher, params: dict) -> dict:
+    method_list = {'encrypt': s.encrypt, 'decrypt': s.decrypt}
+    params_of_method = util.paramsofmethod(method_list.get(util.whocalledme())).keys()
+    new_params = dict()
+    for key, value in params.items():
+        if key in params_of_method:
+            new_params.setdefault(key, value)
+    return new_params
 
 
-def decrypt(s: Sipher, data: str | os.PathLike, key, copy_to_clipboard: bool = False, store: bool = False,
-            store_path: str = None):
-    s.decrypt(data, key.__getitem__(0), copy_to_clipboard=copy_to_clipboard, store=store, store_path=store_path)
+def encrypt(s: Sipher, data: str | os.PathLike, **kwargs):
+    kwargs = _remove_unwanted_params(s, kwargs)
+    s.encrypt(data, **kwargs)
+
+
+def decrypt(s: Sipher, data: str | os.PathLike, **kwargs):
+    kwargs = _remove_unwanted_params(s, kwargs)
+    s.decrypt(data, **kwargs)
 
 
 def main():
     options = get_argument()
     sipher_alg = {'morse': morse, 'rsa': rsa, 'base64': base64}
     s = sipher_alg.get(options.alg)
-    data = util.getinstanceof(options.data, Path) if os.path.exists(options.data) else options.data
+    data = Path(options.data) if os.path.exists(options.data) else options.data
     if options.encrypt:
-        encrypt(s, data, options.key, options.copy_to_clipboard, options.store, options.store_path)
+        encrypt(s, data, pub_key=options.key.__getitem__(1), copy_to_clipboard=options.copy_to_clipboard,
+                store=options.store, store_path=options.store_path)
     elif options.decrypt:
-        decrypt(s, data, options.key, options.copy_to_clipboard, options.store, options.store_path)
+        decrypt(s, data, priv_key=options.key.__getitem__(0), copy_to_clipboard=options.copy_to_clipboard,
+                store=options.store, store_path=options.store_path)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

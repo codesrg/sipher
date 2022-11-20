@@ -65,5 +65,5 @@ class RSA(Sipher):
         if isinstance(data, PathLike):
             data = self._get_data_from_file(data, mode='rb')
         self.__dm = rsa.decrypt(data, priv_key=priv_key)
-        self._copy_store_m(self.__dm.decode('ascii'), self, copy_to_clipboard, store, store_path, 'wb', decryption=True)
+        self._copy_store_m(self.__dm, self, copy_to_clipboard, store, store_path, 'wb', decryption=True)
         return self.__dm.decode('ascii')
