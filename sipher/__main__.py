@@ -40,15 +40,23 @@ def get_argument():
     return options
 
 
+def _remove_unwanted_params(s: Sipher, params: dict) -> dict:
+    method_list = {'encrypt': s.encrypt, 'decrypt': s.decrypt}
+    params_of_method = util.paramsofmethod(method_list.get(util.whocalledme())).keys()
+    new_params = dict()
+    for key, value in params.items():
+        if key in params_of_method:
+            new_params.setdefault(key, value)
+    return new_params
+
+
 def encrypt(s: Sipher, data: str | os.PathLike, **kwargs):
-    if s.__class__.__name__ != rsa.__class__.__name__:
-        kwargs.pop("pub_key")
+    kwargs = _remove_unwanted_params(s, kwargs)
     s.encrypt(data, **kwargs)
 
 
 def decrypt(s: Sipher, data: str | os.PathLike, **kwargs):
-    if s.__class__.__name__ != rsa.__class__.__name__:
-        kwargs.pop("priv_key")
+    kwargs = _remove_unwanted_params(s, kwargs)
     s.decrypt(data, **kwargs)
 
 
