@@ -33,7 +33,7 @@ def retrieve(file_name: str, path: str, file_format: str = None, mode: str = 'r'
         path = os.getcwd()
     if not file_format:
         file_format = ''
-    path += "/{}.{}".format(file_name, file_format)
+    path += "/{}.{}".format(file_name, file_format).rstrip('.')
     file = Path(path)
     with open(file, mode) as f:
         to_return = f.read()
