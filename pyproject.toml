@@ -13,7 +13,6 @@ authors = [
     { name = "srg", email = "srg.code@pm.me" },
 ]
 dependencies = [
-    "pyperclip",
     "srutil",
     "rsa"
 ]
